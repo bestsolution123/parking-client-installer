@@ -28,12 +28,11 @@ step2 : Connect to network
 
 step3 : Clone the installer and start the installation
 
-      $ git clone https://github.com/RAKWireless/RAK7243-LoRaGateway-RPi-Raspbian-OS.git
-      $ cd ~/RAK7243-LoRaGateway-RPi-Raspbian-OS
+      $ git clone https://github.com/bestsolution123/parking-client-installer.git
+      $ cd ./parking-client-installer
       $ chmod +x install.sh
       $ sudo ./install.sh
 
 step4 : Wait untill the instalation complete.
-    
 step5 : Restart 
 step5 : Open Browser and Type [locahost](http://localhost)
