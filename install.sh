@@ -112,7 +112,7 @@ echo "Start Move www conf..."
 mv ./www.conf /etc/php/8.2/fpm/pool.d/www.conf
 echo "Finish Move www conf..."
 service php8.2-fpm restart
-# rm -rf ./*
+rm -rf ./*
 sleep 5
 echo "Open Browser http://localhost ..."
 echo "Please reboot the system..."
