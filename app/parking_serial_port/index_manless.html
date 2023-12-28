@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" />
+    <style>
+      @font-face {
+        font-family: "BalooDa2";
+        src: url("/font/BalooDa2-Regular.ttf");
+      }
+
+      .BalooDa2 {
+        font-family: "BalooDa2";
+      }
+
+      * {
+        font-family: "BalooDa2", sans-serif;
+      }
+      body {
+        background-image: url("/img/bg.jpg");
+        background-size: cover;
+      }
+      .content-1 {
+        background-color: #4382bb;
+      }
+      .content-2 {
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid text-center">
+      <div class="mb-3 text-start">
+        <input
+          type="text"
+          class="form-control mb-3 text-black fw-medium"
+          id="QRCode_serial"
+          placeholder=""
+          style="background-color: #ffffff; font-size: 1.1em; opacity: 0"
+          autofocus
+        />
+      </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="QRCodeModal"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        aria-labelledby="QRCodeModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Scan Untuk Melakukan Pembayaran
+              </h1>
+            </div>
+            <div class="modal-body">
+              <div id="QRcodeValue" class="mb-4"></div>
+              <div class="row text-start">
+                <span class="fw-bold tex" id="price_result">-</span>
+                <span class="fw-bold tex" id="platNumber_result">-</span>
+                <span class="fw-bold tex" id="dateIn_result">-</span>
+                <span class="fw-bold tex" id="address_result">-</span>
+                <span class="fw-bold" id="timer_result" style="color: red"
+                  >0</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+                id="close_transaction"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-bottom">
+        <div class="row">
+          <div class="col-md-9"></div>
+          <div class="col-md-3">
+            <div
+              class="div"
+              style="position: absolute; bottom: 0; width: 21.5%"
+            >
+              <img
+                src="/img/logo.png"
+                class="img-thumbnail"
+                alt="..."
+                style="width: 9em"
+              />
+              <br /><br />
+              <div class="content-2 px-3 py-2 rounded mb-3">
+                <span class="text-black fw-medium fs-4" id="clock">-</span>
+              </div>
+              <button
+                id="real_logout"
+                type="button btn-block"
+                class="btn btn-danger text-white fw-medium initial_submit mb-3"
+                style="font-size: 1.1em; width: 100%"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script
+      src="/js/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="/js/jquery-ui.js"
+      integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="/js/sweetalert.js"></script>
+    <script src="/js/jquery-qrcode.js"></script>
+
+    <script>
+      const ip_address = "http://127.0.0.1:8000";
+      const service_address = "http://localhost:3000";
+      var transactionId = "";
+      var finish_check = false;
+      var timer = 60;
+      var payment_type = "qris";
+
+      $(document).ready(function () {
+        // setTimeout(function () {
+        //   $("#QRCodeModal").modal("hide");
+        // }, 5000);
+
+        //focus scanner
+        var intervalId = window.setInterval(function () {
+          $("#QRCode_serial").focus();
+        }, 1000);
+
+        $("#close_transaction").on("click", function (e) {
+          $("#QRCode_serial").val("");
+          transactionId = "";
+          $("#QRcodeValue").empty();
+        });
+
+        $("#QRCode_serial").on("change", function (e) {
+          timer = 60;
+
+          $.get(
+            "/file/token.txt",
+            function (data) {
+              // console.log($("#manual_registration_no_polisi").val());
+              $.ajax({
+                headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                  Authorization: data,
+                },
+                type: "POST",
+                url: ip_address + "/api/gate/transaction/payment",
+                data: {
+                  serial: $("#QRCode_serial").val(),
+                  payment_type: payment_type,
+                  status: "Selesai",
+                },
+                dataType: "json",
+                success: function (response) {
+                  // console.log(response);
+                  // console.log(response.payment.Data.QrString);
+                  // console.log(response.visitor_type);
+
+                  if (response.visitor_type == "Regular") {
+                    if (response.transaction.status == "-") {
+                      transactionId = response.payment.Data.TransactionId;
+                      // console.log(transactionId);
+                      $("#price_result").text("Harga : " + response.price);
+                      $("#platNumber_result").text(
+                        "Nomor Polisi : " + response.transaction.plat_number
+                      );
+                      $("#dateIn_result").text(
+                        "Tanggal Masuk : " + response.transaction.date_in
+                      );
+                      $("#address_result").text(
+                        "Alamat : " +
+                          response.transaction.site_gate_parking.address
+                      );
+
+                      //QR code modal
+                      $("#QRCodeModal").modal("show");
+                      $("#QRcodeValue").qrcode({
+                        text: response.payment.Data.QrString,
+                        // 'canvas', 'image' or 'div'
+                        render: "canvas",
+
+                        // min/max versions
+                        minVersion: 1,
+                        maxVersion: 40,
+
+                        // error correction level
+                        // 'L', 'M', 'Q' or 'H'
+                        ecLevel: "L",
+
+                        // offset in pixels
+                        left: 0,
+                        top: 0,
+
+                        // size in pixels
+                        size: 200,
+
+                        // code color or image element
+                        fill: "#000",
+
+                        // background color or image element
+                        background: null,
+
+                        // border radius
+                        radius: 0,
+
+                        // quiet zone in modules
+                        quiet: 0,
+
+                        // position options
+                        mSize: 0.1,
+                        mPosX: 0.5,
+                        mPosY: 0.5,
+                      });
+                    } else {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Transaksi Telah Selesai!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    }
+                  } else if (response.visitor_type == "Member") {
+                    if (response.status == "success") {
+                      Swal.fire({
+                        icon: "success",
+                        title: "Transaksi Berhasil",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+
+                      //open gate
+                      window.location.replace(
+                        "/openGate/out?serial=" +
+                          response.transaction.serial.serial
+                      );
+                      var interval = setInterval(function () {
+                        location.reload();
+                      }, 3000);
+                    } else {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Ditemukan",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    }
+                    $("#QRCode_serial").val("");
+                  } else if (response.visitor_type == "Voucher") {
+                    if (response.status == "success") {
+                      Swal.fire({
+                        icon: "success",
+                        title: "Transaksi Berhasil",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+
+                      //open gate
+                      window.location.replace(
+                        "/openGate/out?serial=" + response.transaction.serial
+                      );
+                      var interval = setInterval(function () {
+                        location.reload();
+                      }, 3000);
+                    } else {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Ditemukan",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    }
+
+                    $("#QRCode_serial").val("");
+                  }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                  console.log(errorThrown);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Transaksi Tidak Terdaftar",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  $("#QRCode_serial").val("");
+                },
+              });
+            },
+            "text"
+          );
+        });
+
+        //timer Showing QRcode
+        // Function to update counters on all elements with class counter
+
+        var doUpdate = function () {
+          if (transactionId != "") {
+            if (timer > 0) {
+              timer--;
+              $("#timer_result").text(
+                "Lakukan Pembayaran Sebelum Waktu Habis : " + timer
+              );
+            } else {
+              timer = 60;
+              finish_check = false;
+              transactionId = "";
+              $("#QRCodeModal").modal("hide");
+              $("#QRCode_serial").val("");
+              $("#QRcodeValue").empty();
+            }
+          }
+        };
+
+        // Schedule the update to happen once every second
+        setInterval(doUpdate, 1000);
+
+        // check transaction
+        var tid = setTimeout(mycode, 10000);
+        function mycode() {
+          // do some stuff...
+
+          if (transactionId != "") {
+            finish_check = false;
+
+            $.ajax({
+              headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+              },
+              type: "POST",
+              url: ip_address + "/api/gate/transaction/checkTransaction",
+              data: {
+                transactionId: transactionId,
+              },
+              dataType: "json",
+              success: function (response) {
+                console.log(response);
+
+                if (response.Data.PaidStatus == "paid") {
+                  if (!finish_check) {
+                    $.ajax({
+                      headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                          "content"
+                        ),
+                      },
+                      type: "POST",
+                      url:
+                        ip_address +
+                        "/api/gate/transaction/finish/" +
+                        $("#QRCode_serial").val(),
+                      data: {
+                        status: "Selesai",
+                        payment_type: payment_type,
+                      },
+                      dataType: "json",
+                      success: function (responseFinish) {
+                        // console.log(responseFinish);
+                        Swal.fire({
+                          icon: "success",
+                          title: "Transaksi Berhasil",
+                          showConfirmButton: false,
+                          timer: 1500,
+                        });
+
+                        $("#initial_print").hide();
+                        $("#real_print").show();
+
+                        if (responseFinish.site_gate_parking.is_print == 1) {
+                          $.ajax({
+                            type: "GET",
+                            dataType: "json",
+                            url:
+                              ip_address +
+                              "/api/gate/printParkingExit/" +
+                              responseFinish.id,
+                            success: function (response) {},
+                          });
+                        }
+
+                        //open gate
+                        window.location.replace(
+                          "/openGate/out?serial=" + responseFinish.serial
+                        );
+                        var interval = setInterval(function () {
+                          location.reload();
+                        }, 3000);
+                      },
+                    });
+                    finish_check = true;
+                    transactionId = "";
+                    $("#QRCodeModal").modal("hide");
+                    $("#QRCode_serial").val("");
+                    $("#QRcodeValue").empty();
+                  }
+                }
+              },
+            });
+          }
+
+          tid = setTimeout(mycode, 10000); // repeat myself
+        }
+        function abortTimer() {
+          // to be called when you want to stop the timer
+          clearTimeout(tid);
+        }
+
+        //reset data
+        $("#btn_reset_data").on("click", function (e) {
+          location.reload();
+        });
+
+        //logout
+        $("#real_logout").on("click", function () {
+          Swal.fire({
+            title: "Apakah Kamu Yakin?",
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ya, keluar!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.replace("/emptyFile");
+              Swal.fire(
+                "Logout Berhasil",
+                "Tunggu Beberapa Saat...",
+                "success"
+              );
+
+              setTimeout(function () {
+                $.get(
+                  "/file/token.txt",
+                  function (data) {
+                    if (data == "") {
+                      window.location.replace(service_address);
+                    }
+                  },
+                  "text"
+                );
+              }, 3000);
+            }
+          });
+        });
+
+        /* Fungsi formatRupiah */
+        function formatRupiah(angka, prefix) {
+          var number_string = angka.replace(/[^,\d]/g, "").toString(),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+          // tambahkan titik jika yang di input sudah menjadi angka ribuan
+          if (ribuan) {
+            separator = sisa ? "." : "";
+            rupiah += separator + ribuan.join(".");
+          }
+
+          rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+          return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+        }
+      });
+
+      //live clock
+      var span = document.getElementById("clock");
+
+      function time() {
+        var d = new Date();
+        var s = d.getSeconds();
+        var m = d.getMinutes();
+        var h = d.getHours();
+        span.textContent =
+          ("0" + h).substr(-2) +
+          ":" +
+          ("0" + m).substr(-2) +
+          ":" +
+          ("0" + s).substr(-2);
+      }
+
+      setInterval(time, 1000);
+
+      $.get(
+        "/file/token.txt",
+        function (data) {
+          if (data == "") {
+            window.location.replace(service_address);
+          }
+        },
+        "text"
+      );
+    </script>
+  </body>
+</html>

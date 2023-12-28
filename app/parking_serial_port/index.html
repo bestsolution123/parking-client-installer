@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" />
+    <style>
+      @font-face {
+        font-family: "BalooDa2";
+        src: url("/font/BalooDa2-Regular.ttf");
+      }
+
+      .BalooDa2 {
+        font-family: "BalooDa2";
+      }
+
+      * {
+        font-family: "BalooDa2", sans-serif;
+      }
+      body {
+        background-image: url("/img/bg.jpg");
+        background-size: cover;
+      }
+      .content-1 {
+        background-color: #4382bb;
+      }
+      .content-2 {
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid text-center">
+      <div class="row align-items-start mx-1 my-3">
+        <div class="col-md-3">
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Data Parkir</span>
+
+            <div class="row text-start mt-3">
+              <label
+                for="inputPassword5"
+                class="form-label fs-semibold fs-5 text-white"
+                >Pilih Akses</label
+              >
+            </div>
+
+            <select
+              class="form-select mb-3 text-black fw-medium"
+              aria-label="Default select example"
+              style="background-color: #eeeeee; font-size: 1.1em"
+              id="Akses"
+            >
+              <option value="No Polisi" selected>No Polisi</option>
+              <option value="Berlangganan">Berlangganan</option>
+            </select>
+            <div class="row text-start mt-3">
+              <label
+                for="inputPassword5"
+                class="form-label fs-semibold fs-5 text-white"
+                id="caption_no_initial"
+                >Masukan No Polisi</label
+              >
+            </div>
+            <input
+              type="text"
+              class="form-control mb-3 text-black fw-medium"
+              id="plat_number"
+              placeholder=""
+              style="background-color: #eeeeee; font-size: 1.1em"
+            />
+            <div class="container-fluid mb-3">
+              <div class="row">
+                <button
+                  type="button"
+                  id="btn_plat_number"
+                  class="btn btn-secondary text-black fw-medium"
+                  style="background-color: #ffffff; font-size: 1.1em"
+                >
+                  Cari
+                </button>
+              </div>
+            </div>
+            <div class="container-fluid mb-3">
+              <div class="row">
+                <button
+                  type="button"
+                  id="btn_reset_data"
+                  class="btn btn-secondary text-black fw-medium"
+                  style="background-color: #ffffff; font-size: 1.1em"
+                >
+                  Reset Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Data Kendaraan</span>
+            <div class="content-2 px-3 py-2 my-2 rounded text-start">
+              <span class="fs-5 text-black fw-semibold">No Parkir</span>
+              <br />
+              <span class="fs-5 text-black fw-normal" id="no_parkir">-</span>
+              <div style="border-bottom: 1px solid #aaaaaa" class="my-1"></div>
+              <span class="fs-5 text-black fw-semibold">Tanggal Masuk</span>
+              <br />
+              <span class="fs-5 text-black fw-normal" id="date_in">-</span>
+              <div style="border-bottom: 1px solid #aaaaaa" class="my-1"></div>
+              <span class="fs-5 text-black fw-semibold">Lama Parkir</span>
+              <br />
+              <span class="fs-5 text-black fw-normal" id="parkir_duration"
+                >-</span
+              >
+              <div style="border-bottom: 1px solid #aaaaaa" class="my-1"></div>
+              <span class="fs-5 text-black fw-semibold">Status</span>
+              <br />
+              <span class="fs-5 text-black fw-normal" id="status">-</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Biaya Parkir</span>
+            <div class="content-2 px-3 py-2 my-2 rounded">
+              <span class="fs-5 text-black" id="price">-</span>
+            </div>
+          </div>
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Kendaraan</span>
+            <div class="content-2 px-3 py-2 my-2 rounded">
+              <span class="fs-5 text-black" id="kendaraan">-</span>
+            </div>
+          </div>
+          <div class="content-2 px-3 py-2 rounded mb-3">
+            <span
+              class="text-black fw-bold"
+              style="font-size: 6em"
+              id="gate_in_foto"
+              >?</span
+            >
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Selesaikan Transaksi</span>
+            <div class="row text-start mt-3">
+              <label
+                for="inputPassword5"
+                class="form-label fs-semibold fs-5 text-white"
+                >Status Transaksi</label
+              >
+            </div>
+            <select
+              class="form-select mb-3 text-black fw-medium"
+              aria-label="Default select example"
+              style="background-color: #eeeeee; font-size: 1.1em"
+              id="punishment_option"
+            ></select>
+            <div class="container-fluid mb-3">
+              <div class="row">
+                <!-- button kirim -->
+                <button
+                  type="button btn-block"
+                  class="btn btn-secondary text-black fw-medium initial_submit mb-3"
+                  style="background-color: #dddddd; font-size: 1.1em"
+                >
+                  Kirim
+                </button>
+                <button
+                  type="button btn-block"
+                  class="btn btn-secondary text-black fw-medium mb-3"
+                  style="
+                    background-color: #ffffff;
+                    font-size: 1.1em;
+                    display: none;
+                  "
+                  id="real_submit"
+                >
+                  Kirim
+                </button>
+                <!-- button print -->
+                <button
+                  type="button btn-block"
+                  class="btn btn-secondary text-black fw-medium mb-3"
+                  style="background-color: #dddddd; font-size: 1.1em"
+                  id="initial_print"
+                >
+                  Print
+                </button>
+                <button
+                  type="button btn-block"
+                  class="btn btn-secondary text-black fw-medium mb-3"
+                  style="
+                    background-color: #ffffff;
+                    font-size: 1.1em;
+                    display: none;
+                  "
+                  id="real_print"
+                >
+                  Print
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="content-1 px-3 py-2 rounded mb-3">
+            <span class="fs-4 text-white fw-bold">Transaksi Manual</span>
+
+            <div class="container-fluid mb-3 mt-3">
+              <div class="row">
+                <button
+                  type="button"
+                  id="modal_manual_transaction_button"
+                  class="btn btn-secondary text-black fw-medium"
+                  style="background-color: #ffffff; font-size: 1.1em"
+                >
+                  Munculkan Form
+                </button>
+
+                <!-- Modal -->
+
+                <div
+                  class="modal fade"
+                  id="modal_manual_transaction"
+                  tabindex="-1"
+                  aria-labelledby="modal_manual_transactionLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title fs-5"
+                          id="modal_manual_transactionLabel"
+                        >
+                          Form Transaksi Manual
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form class="eventInsForm" action="#" method="post">
+                          <div class="mb-3 text-start">
+                            <label
+                              for="exampleFormControlInput1"
+                              class="form-label"
+                              >Jenis Kendaraan</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control mb-3 text-black fw-medium"
+                              id="manual_registration_vehicle"
+                              placeholder=""
+                              style="
+                                background-color: #ffffff;
+                                font-size: 1.1em;
+                              "
+                            />
+                          </div>
+                          <div class="mb-3 text-start">
+                            <label
+                              for="exampleFormControlInput1"
+                              class="form-label"
+                              >No Polisi</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control mb-3 text-black fw-medium"
+                              id="manual_registration_no_polisi"
+                              placeholder=""
+                              style="
+                                background-color: #ffffff;
+                                font-size: 1.1em;
+                              "
+                            />
+                          </div>
+                          <div class="mb-3 text-start">
+                            <label
+                              for="exampleFormControlInput1"
+                              class="form-label"
+                              >Tipe Pengunjung</label
+                            >
+                            <select
+                              class="form-select mb-3 text-black fw-medium"
+                              aria-label="Default select example"
+                              style="
+                                background-color: #ffffff;
+                                font-size: 1.1em;
+                              "
+                              id="manual_registration_akses"
+                            >
+                              <option value="" selected>
+                                Pilih Tipe Pengunjung
+                              </option>
+                              <option value="Regular">Regular</option>
+                              <!-- <option value="Member">Member</option> -->
+                              <!-- <option value="Voucher">Voucher</option> -->
+                            </select>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Tutup
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          id="manual_transaction_send"
+                        >
+                          Buat Transaksi
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-bottom">
+        <div class="row">
+          <div class="col-md-6">
+            <div
+              class="content-2 px-3 py-2 rounded mb-3 ms-4 overflow-scroll"
+              style="width: 96%; height: 12em"
+            >
+              <span class="fs-5 fw-bold">Data Kendaraan Member / Voucher</span>
+              <hr />
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nomor Polisi</th>
+                    <th>Awal Aktif</th>
+                    <th>Akhir Aktif</th>
+                  </tr>
+                </thead>
+                <tbody id="vehicle_subsribe_vehicle"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div
+              class="content-2 px-3 py-2 rounded mb-3 ms-4"
+              style="width: 96%"
+            >
+              <span class="fs-5 fw-bold">Data Kendaraan Lengkap</span>
+              <hr />
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Pintu Masuk</th>
+                    <th>Pintu Keluar</th>
+                    <th>Jenis Kendaraan</th>
+                    <th>Nomor Polisi</th>
+                    <th>Status</th>
+                    <th>Tanggal Masuk</th>
+                    <th>Tanggal Keluar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="gate_in_table">-</td>
+                    <td id="gate_out_table">-</td>
+                    <td id="vehicle_table">-</td>
+                    <td class="plat_number_table">-</td>
+                    <td id="status_table">-</td>
+                    <td id="date_in_table">-</td>
+                    <td id="date_out_table">-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div
+              class="div"
+              style="position: absolute; bottom: 0; width: 21.5%"
+            >
+              <img
+                src="/img/logo.png"
+                class="img-thumbnail"
+                alt="..."
+                style="width: 9em"
+              />
+              <br /><br />
+              <div class="content-2 px-3 py-2 rounded mb-3">
+                <span class="text-black fw-medium fs-4" id="clock">-</span>
+              </div>
+              <button
+                id="real_logout"
+                type="button btn-block"
+                class="btn btn-danger text-white fw-medium mb-3"
+                style="font-size: 1.1em; width: 100%"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script
+      src="/js/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="/js/jquery-ui.js"
+      integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="/js/sweetalert.js"></script>
+
+    <script>
+      const ip_address = "http://127.0.0.1:8000";
+      const server_address = "http://127.0.0.1:8000";
+      const service_address = "http://localhost:3000";
+      var transaction_id = "";
+      var plat_number = "";
+
+      $(document).ready(function () {
+        //get vehicle
+
+        $("#modal_manual_transaction_button").on("click", function (e) {
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: ip_address + "/api/dashboard/getAllVechile",
+            success: function (response) {
+              // console.log(response);
+              var availableTags = [];
+
+              for (let i = 0; i < response.length; i++) {
+                availableTags[i] = response[i].name;
+              }
+
+              $("#manual_registration_vehicle").autocomplete({
+                source: availableTags,
+              });
+
+              // console.log(availableTags);
+
+              // auto complete
+
+              $("#modal_manual_transaction").modal("show");
+
+              $("#manual_registration_vehicle").autocomplete(
+                "option",
+                "appendTo",
+                ".eventInsForm"
+              );
+            },
+          });
+        });
+
+        $("#manual_transaction_send").on("click", function (e) {
+          $.get(
+            "/file/token.txt",
+            function (data) {
+              // console.log($("#manual_registration_no_polisi").val());
+              $.ajax({
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  Authorization: data,
+                },
+                type: "POST",
+                url: ip_address + "/api/gate/scanners/manual",
+                data: {
+                  vehicle_id: $("#manual_registration_vehicle").val(),
+                  transaction_member_id: 0,
+                  transaction_voucher_id: 0,
+                  visitor_type: $("#manual_registration_akses").val(),
+                  plat_number: $("#manual_registration_no_polisi").val(),
+                  gate_out: "-",
+                  in_photo: "-",
+                  out_photo: "-",
+                  status: "-",
+                },
+                dataType: "json",
+                success: function (responseFinish) {
+                  // console.log(responseFinish);
+                  if (responseFinish.message == "wrong_vehicle") {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Data Kendaraan Tidak DiTemukan",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else if (responseFinish.message == "wrong_gate") {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Tidak Bisa Membuat Transaksi Di Pintu Keluar",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else {
+                    Swal.fire({
+                      icon: "success",
+                      title: "Transaksi Berhasil DiBuat",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+
+                    //open gate
+                    window.location.replace(
+                      "/openGate/in?serial=" + responseFinish.serial
+                    );
+                    $("#modal_manual_transaction").modal("hide");
+                    $("#manual_registration_vehicle").val("");
+                    $("#manual_registration_no_polisi").val("");
+                    $("#manual_registration_akses").val("");
+
+                    $.get(
+                      "/file/token.txt",
+                      function (data) {
+                        $.ajax({
+                          type: "GET",
+                          dataType: "json",
+                          headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            Authorization: data,
+                          },
+                          url:
+                            ip_address +
+                            "/api/gate/printParking/" +
+                            responseFinish.id,
+                          success: function (response) {},
+                        });
+                      },
+                      "text"
+                    );
+                  }
+                },
+              });
+            },
+            "text"
+          );
+        });
+
+        //reset data
+        $("#btn_reset_data").on("click", function (e) {
+          location.reload();
+        });
+
+        //punishment option
+        $("#punishment_option").on("change", function (e) {
+          var optionSelected = $("option:selected", this);
+          var valueSelected = this.value;
+          $.get("/file/token.txt", function (data) {
+            if (valueSelected != "") {
+              if ($("#Akses").val() == "Berlangganan") {
+                $.ajax({
+                  type: "GET",
+                  dataType: "json",
+                  headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                      "content"
+                    ),
+                    Authorization: data,
+                  },
+                  url:
+                    ip_address +
+                    "/api/gate/transaction/plat_number/detail/subscriber/" +
+                    $("#plat_number").val(),
+                  success: function (response) {
+                    // console.log(response);
+
+                    if (response.message == "error") {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Ditemukan",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    }
+
+                    //set subcribe vehicle list
+                    $("#vehicle_subsribe_vehicle").empty();
+                    if (response.visitor_type == "Voucher") {
+                      response.plat_number_list.voucher_plat_number.forEach(
+                        (element) => {
+                          $("#vehicle_subsribe_vehicle").append(
+                            "<tr>\
+                        <td class='plat_number_table'>" +
+                              element.plat_number +
+                              "</td>\
+                        <td id='gate_in_table'>" +
+                              response.plat_number_list.Awal_Aktif +
+                              "</td>\
+                        <td id='gate_out_table'>" +
+                              response.plat_number_list.Akhir_Aktif +
+                              "</td>\
+                      </tr>"
+                          );
+                        }
+                      );
+                    } else if (response.visitor_type == "Member") {
+                      response.plat_number_list.member_plat_number.forEach(
+                        (element) => {
+                          $("#vehicle_subsribe_vehicle").append(
+                            "<tr>\
+                        <td class='plat_number_table'>" +
+                              element.plat_number +
+                              "</td>\
+                        <td id='gate_in_table'>" +
+                              response.plat_number_list.Awal_Aktif +
+                              "</td>\
+                        <td id='gate_out_table'>" +
+                              response.plat_number_list.Akhir_Aktif +
+                              "</td>\
+                      </tr>"
+                          );
+                        }
+                      );
+                    }
+
+                    // console.log(response.transaction);
+                    $("#kendaraan").html(
+                      response.transaction.vehicle.vehicle_initial.name
+                    );
+                    $("#no_parkir").html(response.transaction.serial);
+
+                    var date = new Date(response.transaction.date_in),
+                      yr = date.getFullYear(),
+                      month = date.getMonth(),
+                      day = date.getDate(),
+                      newDate = yr + "-" + month + "-" + day;
+                    $("#date_in").html(newDate);
+
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+
+                    if (diffDays < 1) {
+                      $("#parkir_duration").html(diffHrs + " Jam");
+                    } else {
+                      $("#parkir_duration").html(
+                        diffDays + " Hari " + diffHrs + " Jam"
+                      );
+                    }
+
+                    $("#status").html(response.transaction.visitor_type);
+                    $("#gate_in_foto").html(
+                      '<img src="' +
+                        server_address +
+                        "/storage/cctv/" +
+                        response.transaction.in_photo +
+                        '" class="img-thumbnail" alt="..." style="height:2em">'
+                    );
+
+                    //calculate price
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+                    var diffMins = Math.round(
+                      ((diff % 86400000) % 3600000) / 60000
+                    ); // minutes
+
+                    var price = 0;
+                    var time_1 = 0;
+                    var time_2 = 0;
+
+                    if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins <
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var grace_time =
+                        response.transaction.vehicle.grace_time.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = parseInt(grace_time);
+                    } else if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins >
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var time_price_1 =
+                        response.transaction.vehicle.time_price_1.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = time_price_1;
+                    }
+
+                    if (time_1 == 0) {
+                      if (
+                        60 + diffMins >=
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                      ) {
+                        var time_price_1 =
+                          response.transaction.vehicle.time_price_1.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+
+                        price = price + parseInt(time_price_1);
+                      }
+                      time_1++;
+                    }
+
+                    if (time_2 == 0) {
+                      if (
+                        diffHrs * 60 + diffMins >=
+                        60 +
+                          parseInt(
+                            response.transaction.vehicle
+                              .limitation_time_duration
+                          )
+                      ) {
+                        var time_price_2 =
+                          response.transaction.vehicle.time_price_2.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+                        price = price + parseInt(time_price_2);
+                      }
+                      time_2++;
+                    }
+
+                    if (
+                      diffHrs * 60 + diffMins >=
+                      120 +
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                    ) {
+                      var time_price_3 =
+                        response.transaction.vehicle.time_price_3.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      if (diffHrs <= 2) {
+                        price = price + time_price_3;
+                      } else {
+                        price = price + time_price_3 * (diffHrs - 1);
+                      }
+                    }
+
+                    if (response.transaction.vehicle.maximum_daily >= 1) {
+                      var maximum_daily_price =
+                        response.transaction.vehicle.maximum_daily_price.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      price = price + maximum_daily_price * diffDays;
+                    }
+
+                    response.punishment.forEach((element) => {
+                      if (element.name == $("#punishment_option").val()) {
+                        var punishment_price = element.price.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                        price = price + parseInt(punishment_price);
+                      }
+                    });
+
+                    price = formatRupiah(price.toString(), "Rp. ");
+                    $("#price").text("-");
+
+                    // response.transaction;
+                  },
+                });
+              } else {
+                $.ajax({
+                  type: "GET",
+                  dataType: "json",
+                  headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                      "content"
+                    ),
+                    Authorization: data,
+                  },
+                  url:
+                    ip_address +
+                    "/api/gate/transaction/plat_number/detail/" +
+                    $("#plat_number").val(),
+                  success: function (response) {
+                    // console.log(response.transaction);
+                    $("#kendaraan").html(
+                      response.transaction.vehicle.vehicle_initial.name
+                    );
+                    $("#no_parkir").html(response.transaction.serial);
+
+                    var date = new Date(response.transaction.date_in),
+                      yr = date.getFullYear(),
+                      month = date.getMonth(),
+                      day = date.getDate(),
+                      newDate = yr + "-" + month + "-" + day;
+                    $("#date_in").html(newDate);
+
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+
+                    if (diffDays < 1) {
+                      $("#parkir_duration").html(diffHrs + " Jam");
+                    } else {
+                      $("#parkir_duration").html(
+                        diffDays + " Hari " + diffHrs + " Jam"
+                      );
+                    }
+
+                    $("#status").html(response.transaction.visitor_type);
+                    $("#gate_in_foto").html(
+                      '<img src="' +
+                        server_address +
+                        "/storage/cctv/" +
+                        response.transaction.in_photo +
+                        '" class="img-thumbnail" alt="..." style="height:2em">'
+                    );
+
+                    //calculate price
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+                    var diffMins = Math.round(
+                      ((diff % 86400000) % 3600000) / 60000
+                    ); // minutes
+
+                    var price = 0;
+                    var time_1 = 0;
+                    var time_2 = 0;
+
+                    if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins <
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var grace_time =
+                        response.transaction.vehicle.grace_time.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = parseInt(grace_time);
+                    } else if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins >
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var time_price_1 =
+                        response.transaction.vehicle.time_price_1.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = time_price_1;
+                    }
+
+                    if (time_1 == 0) {
+                      if (
+                        60 + diffMins >=
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                      ) {
+                        var time_price_1 =
+                          response.transaction.vehicle.time_price_1.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+
+                        price = price + parseInt(time_price_1);
+                      }
+                      time_1++;
+                    }
+
+                    if (time_2 == 0) {
+                      if (
+                        diffHrs * 60 + diffMins >=
+                        60 +
+                          parseInt(
+                            response.transaction.vehicle
+                              .limitation_time_duration
+                          )
+                      ) {
+                        var time_price_2 =
+                          response.transaction.vehicle.time_price_2.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+                        price = price + parseInt(time_price_2);
+                      }
+                      time_2++;
+                    }
+
+                    if (
+                      diffHrs * 60 + diffMins >=
+                      120 +
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                    ) {
+                      var time_price_3 =
+                        response.transaction.vehicle.time_price_3.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      if (diffHrs <= 2) {
+                        price = price + time_price_3;
+                      } else {
+                        price = price + time_price_3 * (diffHrs - 1);
+                      }
+                    }
+
+                    if (response.transaction.vehicle.maximum_daily >= 1) {
+                      var maximum_daily_price =
+                        response.transaction.vehicle.maximum_daily_price.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      price = price + maximum_daily_price * diffDays;
+                    }
+
+                    response.punishment.forEach((element) => {
+                      if (element.name == $("#punishment_option").val()) {
+                        var punishment_price = element.price.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                        price = price + parseInt(punishment_price);
+                      }
+                    });
+
+                    price = formatRupiah(price.toString(), "Rp. ");
+                    $("#price").text(price);
+
+                    // response.transaction;
+                  },
+                });
+              }
+
+              $("#real_submit").show();
+              $(".initial_submit").hide();
+            } else {
+              $("#real_submit").hide();
+              $(".initial_submit").show();
+            }
+          });
+        });
+
+        //set default akses
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url:
+            ip_address +
+            "/api/gate/transaction/plat_number/" +
+            $("#Akses").val(),
+          success: function (response) {
+            // console.log(response.transaction);
+            var availableTags = [];
+
+            for (let i = 0; i < response.transaction.length; i++) {
+              availableTags[i] = response.transaction[i].plat_number;
+            }
+
+            // console.log(availableTags);
+
+            // auto complete
+            $("#plat_number").autocomplete({
+              source: availableTags,
+            });
+          },
+        });
+
+        //set custom akses
+        $("#Akses").on("change", function (e) {
+          if ($("#Akses").val() == "Berlangganan") {
+            $("#caption_no_initial").text("Masukan Akses Member / Voucher ");
+          } else {
+            $("#caption_no_initial").text("Masukan No Polisi");
+
+            $.ajax({
+              type: "GET",
+              dataType: "json",
+              url:
+                ip_address +
+                "/api/gate/transaction/plat_number/" +
+                $("#Akses").val(),
+              success: function (response) {
+                // console.log(response.transaction);
+                var availableTags = [];
+
+                for (let i = 0; i < response.transaction.length; i++) {
+                  availableTags[i] = response.transaction[i].plat_number;
+                }
+
+                // console.log(availableTags);
+
+                // auto complete
+                $("#plat_number").autocomplete({
+                  source: availableTags,
+                });
+              },
+            });
+          }
+        });
+
+        //search data
+        $("#btn_plat_number").on("click", function () {
+          $.get("/file/token.txt", function (data) {
+            if ($("#Akses").val() == "Berlangganan") {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                  Authorization: data,
+                },
+                url:
+                  ip_address +
+                  "/api/gate/transaction/plat_number/detail/subscriber/" +
+                  $("#plat_number").val(),
+                success: function (response) {
+                  console.log(response);
+
+                  if (response.message == "error") {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Data Tidak Ditemukan",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  }
+                  //set subcribe vehicle list
+                  $("#vehicle_subsribe_vehicle").empty();
+                  if (response.visitor_type == "Voucher") {
+                    response.plat_number_list.voucher_plat_number.forEach(
+                      (element) => {
+                        $("#vehicle_subsribe_vehicle").append(
+                          "<tr>\
+                        <td class='plat_number_table'>" +
+                            element.plat_number +
+                            "</td>\
+                        <td id='gate_in_table'>" +
+                            response.plat_number_list.Awal_Aktif +
+                            "</td>\
+                        <td id='gate_out_table'>" +
+                            response.plat_number_list.Akhir_Aktif +
+                            "</td>\
+                      </tr>"
+                        );
+                      }
+                    );
+                  } else if (response.visitor_type == "Member") {
+                    response.plat_number_list.member_plat_number.forEach(
+                      (element) => {
+                        $("#vehicle_subsribe_vehicle").append(
+                          "<tr>\
+                        <td class='plat_number_table'>" +
+                            element.plat_number +
+                            "</td>\
+                        <td id='gate_in_table'>" +
+                            response.plat_number_list.Awal_Aktif +
+                            "</td>\
+                        <td id='gate_out_table'>" +
+                            response.plat_number_list.Akhir_Aktif +
+                            "</td>\
+                      </tr>"
+                        );
+                      }
+                    );
+                  }
+
+                  if (response.message == "success") {
+                    {
+                      $("#kendaraan").html(
+                        response.transaction.vehicle.vehicle_initial.name
+                      );
+                      $("#no_parkir").html(response.transaction.serial);
+                      var date = new Date(response.transaction.date_in),
+                        yr = date.getFullYear(),
+                        month = date.getMonth(),
+                        day = date.getDate(),
+                        newDate = yr + "-" + month + "-" + day;
+                      $("#date_in").html(newDate);
+                      var start = new Date(response.transaction.date_in),
+                        end = new Date(response.transaction.date_out),
+                        diff = new Date(end - start);
+                      var diffDays = Math.floor(diff / 86400000); // days
+                      var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+                      if (diffDays < 1) {
+                        $("#parkir_duration").html(diffHrs + " Jam");
+                      } else {
+                        $("#parkir_duration").html(
+                          diffDays + " Hari " + diffHrs + " Jam"
+                        );
+                      }
+                      $("#status").html(response.transaction.visitor_type);
+                      $("#gate_in_foto").html(
+                        '<img src="' +
+                          server_address +
+                          "/storage/cctv/" +
+                          response.transaction.in_photo +
+                          '" class="img-thumbnail" alt="..." style="height:2em">'
+                      );
+                      //calculate price
+                      var start = new Date(response.transaction.date_in),
+                        end = new Date(response.transaction.date_out),
+                        diff = new Date(end - start);
+
+                      var diffDays = Math.floor(diff / 86400000); // days
+                      var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+                      var diffMins = Math.round(
+                        ((diff % 86400000) % 3600000) / 60000
+                      ); // minutes
+
+                      var price = 0;
+                      var time_1 = 0;
+                      var time_2 = 0;
+
+                      if (
+                        diffDays < 1 &&
+                        diffHrs < 1 &&
+                        diffMins <
+                          parseInt(
+                            response.transaction.vehicle.grace_time_duration
+                          )
+                      ) {
+                        var grace_time =
+                          response.transaction.vehicle.grace_time.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+                        price = parseInt(grace_time);
+                      } else if (
+                        diffDays < 1 &&
+                        diffHrs < 1 &&
+                        diffMins >
+                          parseInt(
+                            response.transaction.vehicle.grace_time_duration
+                          )
+                      ) {
+                        var time_price_1 =
+                          response.transaction.vehicle.time_price_1.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+                        price = time_price_1;
+                      }
+
+                      if (time_1 == 0) {
+                        if (
+                          60 + diffMins >=
+                          parseInt(
+                            response.transaction.vehicle
+                              .limitation_time_duration
+                          )
+                        ) {
+                          var time_price_1 =
+                            response.transaction.vehicle.time_price_1.replaceAll(
+                              /\D/g,
+                              ""
+                            );
+
+                          price = price + parseInt(time_price_1);
+                        }
+                        time_1++;
+                      }
+
+                      if (time_2 == 0) {
+                        if (
+                          diffHrs * 60 + diffMins >=
+                          60 +
+                            parseInt(
+                              response.transaction.vehicle
+                                .limitation_time_duration
+                            )
+                        ) {
+                          var time_price_2 =
+                            response.transaction.vehicle.time_price_2.replaceAll(
+                              /\D/g,
+                              ""
+                            );
+                          price = price + parseInt(time_price_2);
+                        }
+                        time_2++;
+                      }
+
+                      if (
+                        diffHrs * 60 + diffMins >=
+                        120 +
+                          parseInt(
+                            response.transaction.vehicle
+                              .limitation_time_duration
+                          )
+                      ) {
+                        var time_price_3 =
+                          response.transaction.vehicle.time_price_3.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+
+                        if (diffHrs <= 2) {
+                          price = price + time_price_3;
+                        } else {
+                          price = price + time_price_3 * (diffHrs - 1);
+                        }
+                      }
+
+                      if (response.transaction.vehicle.maximum_daily >= 1) {
+                        var maximum_daily_price =
+                          response.transaction.vehicle.maximum_daily_price.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+
+                        price = price + maximum_daily_price * diffDays;
+                      }
+
+                      // response.punishment.forEach((element) => {
+                      //   if (element.name == response.transaction.status) {
+                      //     var punishment_price = element.price.replaceAll(/\D/g, "");
+                      //     price = price + parseInt(punishment_price);
+                      //   }
+                      // });
+
+                      price = formatRupiah(price.toString(), "Rp. ");
+                      $("#price").text("-");
+                      //get punishment
+                      $("#punishment_option").empty();
+                      $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: ip_address + "/api/gate/punishment",
+                        success: function (response) {
+                          // console.log(response.punishment);
+                          $("#punishment_option").append(
+                            "<option value='' selected>Pilih Status</option>"
+                          );
+                          response.punishment.forEach((element) => {
+                            $("#punishment_option").append(
+                              "<option value='" +
+                                element.name +
+                                "'>" +
+                                element.name +
+                                "</option>"
+                            );
+                          });
+                          $("#punishment_option").append(
+                            "<option value='Selesai'>Selesai</option>"
+                          );
+                        },
+                      });
+                      //fill table data
+                      $("#gate_in_table").html(
+                        response.transaction.site_gate_parking.name
+                      );
+                      $("#gate_out_table").html(response.transaction.gate_out);
+                      $("#vehicle_table").html(
+                        response.transaction.vehicle.name
+                      );
+                      $(".plat_number_table").html(
+                        response.transaction.plat_number
+                      );
+
+                      plat_number = response.transaction.plat_number;
+                      $("#status_table").html(
+                        response.transaction.visitor_type
+                      );
+                      $("#date_in_table").html(response.transaction.date_in);
+                      $("#date_out_table").html(response.transaction.date_out);
+                      // response.transaction;
+                    }
+                  }
+                },
+                error: function (response) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Ditemukan",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                },
+              });
+            } else {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                  Authorization: data,
+                },
+                url:
+                  ip_address +
+                  "/api/gate/transaction/plat_number/detail/" +
+                  $("#plat_number").val(),
+                success: function (response) {
+                  // console.log(response.transaction);
+
+                  if (response.message == "success") {
+                    $("#kendaraan").html(
+                      response.transaction.vehicle.vehicle_initial.name
+                    );
+                    $("#no_parkir").html(response.transaction.serial);
+
+                    var date = new Date(response.transaction.date_in),
+                      yr = date.getFullYear(),
+                      month = date.getMonth(),
+                      day = date.getDate(),
+                      newDate = yr + "-" + month + "-" + day;
+                    $("#date_in").html(newDate);
+
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+
+                    if (diffDays < 1) {
+                      $("#parkir_duration").html(diffHrs + " Jam");
+                    } else {
+                      $("#parkir_duration").html(
+                        diffDays + " Hari " + diffHrs + " Jam"
+                      );
+                    }
+
+                    $("#status").html(response.transaction.visitor_type);
+                    $("#gate_in_foto").html(
+                      '<img src="' +
+                        server_address +
+                        "/storage/cctv/" +
+                        response.transaction.in_photo +
+                        '" class="img-thumbnail" alt="..." style="height:2em">'
+                    );
+
+                    //calculate price
+                    var start = new Date(response.transaction.date_in),
+                      end = new Date(response.transaction.date_out),
+                      diff = new Date(end - start);
+
+                    var diffDays = Math.floor(diff / 86400000); // days
+                    var diffHrs = Math.floor((diff % 86400000) / 3600000); // hours
+                    var diffMins = Math.round(
+                      ((diff % 86400000) % 3600000) / 60000
+                    ); // minutes
+
+                    var price = 0;
+                    var time_1 = 0;
+                    var time_2 = 0;
+
+                    if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins <
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var grace_time =
+                        response.transaction.vehicle.grace_time.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = parseInt(grace_time);
+                    } else if (
+                      diffDays < 1 &&
+                      diffHrs < 1 &&
+                      diffMins >
+                        parseInt(
+                          response.transaction.vehicle.grace_time_duration
+                        )
+                    ) {
+                      var time_price_1 =
+                        response.transaction.vehicle.time_price_1.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+                      price = time_price_1;
+                    }
+
+                    if (time_1 == 0) {
+                      if (
+                        60 + diffMins >=
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                      ) {
+                        var time_price_1 =
+                          response.transaction.vehicle.time_price_1.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+
+                        price = price + parseInt(time_price_1);
+                      }
+                      time_1++;
+                    }
+
+                    if (time_2 == 0) {
+                      if (
+                        diffHrs * 60 + diffMins >=
+                        60 +
+                          parseInt(
+                            response.transaction.vehicle
+                              .limitation_time_duration
+                          )
+                      ) {
+                        var time_price_2 =
+                          response.transaction.vehicle.time_price_2.replaceAll(
+                            /\D/g,
+                            ""
+                          );
+                        price = price + parseInt(time_price_2);
+                      }
+                      time_2++;
+                    }
+
+                    if (
+                      diffHrs * 60 + diffMins >=
+                      120 +
+                        parseInt(
+                          response.transaction.vehicle.limitation_time_duration
+                        )
+                    ) {
+                      var time_price_3 =
+                        response.transaction.vehicle.time_price_3.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      if (diffHrs <= 2) {
+                        price = price + time_price_3;
+                      } else {
+                        price = price + time_price_3 * (diffHrs - 1);
+                      }
+                    }
+
+                    if (response.transaction.vehicle.maximum_daily >= 1) {
+                      var maximum_daily_price =
+                        response.transaction.vehicle.maximum_daily_price.replaceAll(
+                          /\D/g,
+                          ""
+                        );
+
+                      price = price + maximum_daily_price * diffDays;
+                    }
+
+                    // response.punishment.forEach((element) => {
+                    //   if (element.name == response.transaction.status) {
+                    //     var punishment_price = element.price.replaceAll(/\D/g, "");
+                    //     price = price + parseInt(punishment_price);
+                    //   }
+                    // });
+
+                    price = formatRupiah(price.toString(), "Rp. ");
+                    $("#price").text(price);
+
+                    //get punishment
+                    $("#punishment_option").empty();
+                    $.ajax({
+                      type: "GET",
+                      dataType: "json",
+                      url: ip_address + "/api/gate/punishment",
+                      success: function (response) {
+                        // console.log(response.punishment);
+
+                        $("#punishment_option").append(
+                          "<option value='' selected>Pilih Status</option>"
+                        );
+
+                        response.punishment.forEach((element) => {
+                          $("#punishment_option").append(
+                            "<option value='" +
+                              element.name +
+                              "'>" +
+                              element.name +
+                              "</option>"
+                          );
+                        });
+
+                        $("#punishment_option").append(
+                          "<option value='Selesai'>Selesai</option>"
+                        );
+                      },
+                    });
+
+                    //fill table data
+                    $("#gate_in_table").html(
+                      response.transaction.site_gate_parking.name
+                    );
+                    $("#gate_out_table").html(response.transaction.gate_out);
+                    $("#vehicle_table").html(response.transaction.vehicle.name);
+                    $(".plat_number_table").html(
+                      response.transaction.plat_number
+                    );
+
+                    plat_number = response.transaction.plat_number;
+
+                    $("#status_table").html(response.transaction.visitor_type);
+                    $("#date_in_table").html(response.transaction.date_in);
+                    $("#date_out_table").html(response.transaction.date_out);
+
+                    // response.transaction;
+                  }
+                },
+                error: function (response) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Ditemukan",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                },
+              });
+            }
+          });
+        });
+
+        //send data
+        $("#real_submit").on("click", function () {
+          // console.log($(".plat_number_table").text()[0]);
+          $.get("/file/token.txt", function (data) {
+            if ($("#Akses").val() == "Berlangganan") {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                  Authorization: data,
+                },
+                url:
+                  ip_address +
+                  "/api/gate/transaction/plat_number/detail/" +
+                  plat_number,
+                success: function (response) {
+                  // console.log(response.serial);
+                  transaction_id = response.transaction.serial;
+
+                  $.ajax({
+                    headers: {
+                      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                      ),
+                      Authorization: data,
+                    },
+                    type: "POST",
+                    url:
+                      ip_address +
+                      "/api/gate/transaction/finish/" +
+                      response.transaction.serial,
+                    data: {
+                      status: $("#punishment_option").val(),
+                      payment_type: "Cash",
+                    },
+                    dataType: "json",
+                    success: function (responseFinish) {
+                      // console.log(responseFinish);
+
+                      Swal.fire({
+                        icon: "success",
+                        title: "Transaksi Berhasil Di Selesaikan.",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+
+                      $("#initial_print").hide();
+                      $("#real_print").show();
+
+                      //open gate
+                      window.location.replace(
+                        "/openGate/out?serial=" + response.transaction.serial
+                      );
+
+                      // var interval = setInterval(function () {
+                      //   location.reload();
+                      // }, 3000);
+                      // $.ajax({
+                      //   type: "GET",
+                      //   dataType: "json",
+                      //   url:
+                      //     ip_address +
+                      //     "/api/gate/printParkingExit/" +
+                      //     responseFinish.id,
+                      //   success: function (response) {},
+                      // });
+                    },
+                  });
+
+                  // response.transaction;
+                },
+              });
+            } else {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                  Authorization: data,
+                },
+                url:
+                  ip_address +
+                  "/api/gate/transaction/plat_number/detail/" +
+                  $("#plat_number").val(),
+                success: function (response) {
+                  // console.log(response.transaction.id);
+                  transaction_id = response.transaction.serial;
+                  $.ajax({
+                    headers: {
+                      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                      ),
+                      Authorization: data,
+                    },
+                    type: "POST",
+                    url:
+                      ip_address +
+                      "/api/gate/transaction/finish/" +
+                      response.transaction.serial,
+                    data: {
+                      status: $("#punishment_option").val(),
+                      payment_type: "Cash",
+                    },
+                    dataType: "json",
+                    success: function (responseFinish) {
+                      // console.log(responseFinish);
+
+                      Swal.fire({
+                        icon: "success",
+                        title: "Transaksi Berhasil Di Selesaikan.",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+
+                      $("#initial_print").hide();
+                      $("#real_print").show();
+
+                      //open gate
+                      window.location.replace(
+                        "/openGate/out?serial=" + response.transaction.serial
+                      );
+
+                      // var interval = setInterval(function () {
+                      //   location.reload();
+                      // }, 3000);
+                      // $.ajax({
+                      //   type: "GET",
+                      //   dataType: "json",
+                      //   url:
+                      //     ip_address +
+                      //     "/api/gate/printParkingExit/" +
+                      //     responseFinish.id,
+                      //   success: function (response) {},
+                      // });
+                    },
+                  });
+                },
+              });
+            }
+          });
+        });
+
+        //print data
+        $("#real_print").on("click", function () {
+          // console.log($("#plat_number").val());
+          $.get(
+            "/file/token.txt",
+            function (data) {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  Authorization: data,
+                },
+                url:
+                  ip_address + "/api/gate/printParkingExit/" + transaction_id,
+                success: function (response) {},
+              });
+            },
+            "text"
+          );
+        });
+
+        //logout
+        $("#real_logout").on("click", function () {
+          Swal.fire({
+            title: "Apakah Kamu Yakin?",
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ya, keluar!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.replace("/emptyFile");
+              Swal.fire(
+                "Logout Berhasil",
+                "Tunggu Beberapa Saat...",
+                "success"
+              );
+
+              setTimeout(function () {
+                $.get(
+                  "/file/token.txt",
+                  function (data) {
+                    if (data == "") {
+                      window.location.replace(service_address);
+                    }
+                  },
+                  "text"
+                );
+              }, 3000);
+            }
+          });
+        });
+
+        //on change member
+        $("#plat_number").on("change", function () {
+          if ($("#Akses").val() == "Member") {
+            $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: ip_address + "/api/gate/member/" + $("#plat_number").val(),
+              success: function (response) {
+                // console.log(response.transaction_member);
+                var availableTags = [];
+                for (let i = 0; i < response.transaction_member.length; i++) {
+                  availableTags[i] = response.transaction_member[i];
+                }
+                // console.log(availableTags);
+                // auto complete
+                $("#plat_number").autocomplete({
+                  source: availableTags,
+                });
+              },
+            });
+          } else if ($("#Akses").val() == "Voucher") {
+            $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: ip_address + "/api/gate/voucher/" + $("#plat_number").val(),
+              success: function (response) {
+                // console.log(response.transaction_voucher);
+                var availableTags = [];
+                for (let i = 0; i < response.transaction_voucher.length; i++) {
+                  availableTags[i] = response.transaction_voucher[i];
+                }
+                // console.log(availableTags);
+                // auto complete
+                $("#plat_number").autocomplete({
+                  source: availableTags,
+                });
+              },
+            });
+          }
+        });
+
+        /* Fungsi formatRupiah */
+        function formatRupiah(angka, prefix) {
+          var number_string = angka.replace(/[^,\d]/g, "").toString(),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+          // tambahkan titik jika yang di input sudah menjadi angka ribuan
+          if (ribuan) {
+            separator = sisa ? "." : "";
+            rupiah += separator + ribuan.join(".");
+          }
+
+          rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+          return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+        }
+      });
+
+      //live clock
+      var span = document.getElementById("clock");
+
+      function time() {
+        var d = new Date();
+        var s = d.getSeconds();
+        var m = d.getMinutes();
+        var h = d.getHours();
+        span.textContent =
+          ("0" + h).substr(-2) +
+          ":" +
+          ("0" + m).substr(-2) +
+          ":" +
+          ("0" + s).substr(-2);
+      }
+
+      setInterval(time, 1000);
+
+      $.get(
+        "/file/token.txt",
+        function (data) {
+          if (data == "") {
+            window.location.replace(service_address);
+          }
+        },
+        "text"
+      );
+    </script>
+  </body>
+</html>

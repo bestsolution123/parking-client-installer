@@ -1,0 +1,29 @@
+{
+  "name": "node_2",
+  "version": "1.0.0",
+  "description": "serial_communication",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pci",
+  "license": "ISC",
+  "dependencies": {
+    "@serialport/parser-readline": "^12.0.0",
+    "axios": "^1.5.1",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-network": "^3.0.0-alpha.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "external-ip": "^2.3.1",
+    "node-cron": "^3.0.3",
+    "node-rtsp-recorder": "^1.0.3",
+    "node-thermal-printer": "^4.4.1",
+    "php-express": "^0.0.3",
+    "ping": "^0.4.4",
+    "play-sound": "^1.1.6",
+    "puppeteer": "^21.6.1",
+    "serialport": "^12.0.0"
+  }
+}

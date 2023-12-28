@@ -1,0 +1,134 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "dashboard-analytics"
+    },
+    {
+      "name": "Master Data",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "slug": "layouts-master",
+      "submenu": [
+        {
+          "url": "/dashboard/printer",
+          "name": "Printer ",
+          "slug": "dashboard/printer"
+        },
+        {
+          "url": "/dashboard/manlessPayment",
+          "name": "Pembayaran",
+          "slug": "dashboard/manlessPayment"
+        },
+        {
+          "url": "/dashboard/vehicle",
+          "name": "Kendaraan ",
+          "slug": "dashboard/vehicle"
+        },
+        {
+          "url": "/dashboard/siteGateParking",
+          "name": "Pintu Gerbang Parkir",
+          "slug": "dashboard/siteGateParking"
+        },
+        {
+          "url": "/dashboard/punishment",
+          "name": "Denda",
+          "slug": "dashboard/punishment"
+        },
+        {
+          "url": "/dashboard/member",
+          "name": "Member",
+          "slug": "dashboard/member"
+        },
+        {
+          "url": "/dashboard/voucher",
+          "name": "Voucher",
+          "slug": "dashboard/voucher"
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "slug": "layouts-data",
+      "submenu": [
+        {
+          "url": "dashboard/member/list",
+          "name": "List Member",
+          "slug": "dashboard/member/list"
+        },
+        {
+          "url": "dashboard/voucher/list",
+          "name": "List Voucher",
+          "slug": "dashboard/voucher/list"
+        }
+      ]
+    },
+    {
+      "name": "Transaksi",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "slug": "layouts-transaksi",
+      "submenu": [
+        {
+          "url": "dashboard/transaction/regular",
+          "name": "Transaksi Regular",
+          "slug": "dashboard/transaction/regular"
+        },
+        {
+          "url": "dashboard/transaction/member",
+          "name": "Transaksi Member",
+          "slug": "dashboard/transaction/member"
+        },
+        {
+          "url": "dashboard/transaction/voucher",
+          "name": "Transaksi Voucher",
+          "slug": "dashboard/transaction/voucher"
+        }
+      ]
+    },
+    {
+      "name": "Laporan",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "slug": "layouts-laporan",
+      "submenu": [
+        {
+          "url": "dashboard/report/kendaraan",
+          "name": "Laporan Kendaraan",
+          "slug": "dashboard/report/kendaraan"
+        },
+        {
+          "url": "dashboard/report/overnight",
+          "name": "Laporan Overnight",
+          "slug": "dashboard/report/overnight"
+        },
+        {
+          "url": "dashboard/report/pendapatan/parkir",
+          "name": "Laporan Pendapatan Parkir",
+          "slug": "dashboard/report/pendapatan/parkir"
+        },
+        {
+          "url": "dashboard/report/pendapatan/member",
+          "name": "Laporan Pendapatan Member",
+          "slug": "dashboard/report/pendapatan/member"
+        },
+        {
+          "url": "dashboard/report/pendapatan/voucher",
+          "name": "Laporan Pendapatan Voucher",
+          "slug": "dashboard/report/pendapatan/voucher"
+        },
+        {
+          "url": "dashboard/report/pendapatan/gabungan",
+          "name": "Laporan Pendapatan Gabungan",
+          "slug": "dashboard/report/pendapatan/gabungan"
+        }
+      ]
+    },
+    {
+      "url": "/dashboard/auth",
+      "name": "User",
+      "icon": "menu-icon tf-icons bx bx-user-circle",
+      "slug": "dashboard/auth"
+    }
+  ]
+}

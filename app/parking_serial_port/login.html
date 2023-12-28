@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!---Coding By CoderGirl | www.codinglabweb.com--->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Login & Registration Form | CoderGirl</title>
+    <!---Custom CSS File--->
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <input type="checkbox" id="check" />
+      <div class="login form">
+        <header>Login</header>
+        <form action="#">
+          <input type="text" placeholder="Enter your Username" id="username" />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            id="password"
+          />
+          <input type="button" class="button" value="Login" id="sign_in" />
+        </form>
+      </div>
+    </div>
+  </body>
+
+  <script
+    src="/js/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"
+  ></script>
+  <script src="/js/sweetalert.js"></script>
+
+  <script>
+    const ip_address = "http://127.0.0.1:8000";
+    const service_address = "http://localhost:3000";
+
+    $("#sign_in").on("click", function () {
+      // window.location.replace("http://localhost:3000/dashboard");
+
+      $.ajax({
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        type: "POST",
+        url: ip_address + "/api/dashboard/loginStore",
+        data: {
+          name: $("#username").val(),
+          password: $("#password").val(),
+        },
+        dataType: "json",
+        success: function (response) {
+          // console.log(response.type_payment);
+
+          Swal.fire("Login Berhasiil", "Tunggu Beberapa Saat...", "success");
+
+          window.location.replace(
+            "/writeFile?token=" +
+              response.token +
+              "&type_payment=" +
+              response.type_payment
+          );
+
+          setTimeout(function () {
+            if (response.type_payment == "Manless") {
+              window.location.replace("/dashboard/manless");
+            } else {
+              window.location.replace("/dashboard");
+            }
+          }, 3000);
+
+          // if (response.status == 400) {
+
+          // } else {
+
+          // }
+        },
+        error: function (response) {
+          Swal.fire(
+            "Login Gagal",
+            "Periksa Kembali Username / Password",
+            "error"
+          );
+        },
+      });
+    });
+
+    $(document).ready(function () {
+      $.get(
+        "/file/token.txt",
+        function (data) {
+          console.log(data);
+          if (data != "") {
+            $.get(
+              "/file/type_payment.txt",
+              function (data2) {
+                console.log(data2);
+                if (data2 == "Manless") {
+                  window.location.replace(
+                    service_address + "/dashboard/manless"
+                  );
+                } else {
+                  window.location.replace(service_address + "/dashboard");
+                }
+              },
+              "text"
+            );
+          }
+        },
+        "text"
+      );
+    });
+  </script>
+</html>
